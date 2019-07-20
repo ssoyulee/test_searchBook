@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: search_book
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: hyunju
+Implementation-Vendor-Id: com.kkb
+Build-Jdk: 1.8.0_221
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/search_book
+Created-By: Maven Integration for Eclipse
+
