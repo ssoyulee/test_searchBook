@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.kkb.service.UserSearchHistServiceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! - in com.kkb.service.UserSearchHistServiceTest
+searchTest(com.kkb.service.UserSearchHistServiceTest)  Time elapsed: 0.002 s  <<< ERROR!
+org.springframework.dao.DataIntegrityViolationException: 
+could not execute statement; SQL [n/a]; constraint ["PUBLIC.UK_A3IMLF41L37UTMXIQUUKK8AJC_INDEX_2 ON PUBLIC.USER(USER_ID) VALUES 1"; SQL statement:
+insert into user (seq, last_searrch_seq, user_id, user_pw) values (null, ?, ?, ?) [23505-199]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.kkb.service.UserSearchHistServiceTest.searchTest(UserSearchHistServiceTest.java:30)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.kkb.service.UserSearchHistServiceTest.searchTest(UserSearchHistServiceTest.java:30)
+Caused by: org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: 
+Unique index or primary key violation: "PUBLIC.UK_A3IMLF41L37UTMXIQUUKK8AJC_INDEX_2 ON PUBLIC.USER(USER_ID) VALUES 1"; SQL statement:
+insert into user (seq, last_searrch_seq, user_id, user_pw) values (null, ?, ?, ?) [23505-199]
+	at com.kkb.service.UserSearchHistServiceTest.searchTest(UserSearchHistServiceTest.java:30)
+

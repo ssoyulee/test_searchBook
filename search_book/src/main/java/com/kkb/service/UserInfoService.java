@@ -71,7 +71,7 @@ public class UserInfoService {
 		
 		log.debug("saveUser > {}",inputUser);
 		
-		User user = User.builder().userId( inputUser.getUserId() ).userPw( encodingPassword(inputUser.getUserPw()) ).build();
+		User user = User.builder().userId( inputUser.getUserId() ).userPw( encodingPassword(inputUser.getUserPw()) ).lastSearrchSeq(0).build();
 		if ( userInfoDao.save(user) == null ) {
 			throw new Exception("사용자 정보 저장 에 실패하였습니다.");
 		}

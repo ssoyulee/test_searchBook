@@ -5,6 +5,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 
@@ -51,9 +53,9 @@ public class SearchBookService {
 	 * @throws KeyStoreException
 	 * @throws NoSuchAlgorithmException
 	 */
-	public String searchBook( SearchBookDto dto ) throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+	public Map<String,Object> searchBook( SearchBookDto dto ) throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
 		
-		String result = kakaoSearchBook( dto );
+		Map<String,Object> map = kakaoSearchBook( dto );
 		try {
 			// 이력을 등록한다. 이력 등록에 실패하였다고 오류를 발생시키지는 않는다.
 			saveUserSearchHist(dto);
@@ -61,7 +63,7 @@ public class SearchBookService {
 			// TODO: handle exception
 		}
 		
-		return result;
+		return map;
 	}
 	
 	/**
@@ -93,31 +95,28 @@ public class SearchBookService {
 		return restTemplate;
 	}
 	
-	/**
-	 * 카카오 도서 검색
-	 * @param dto
-	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyStoreException 
-	 * @throws KeyManagementException 
-	 */
-	public String kakaoSearchBook( SearchBookDto dto ) throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+	public Map<String, Object> kakaoSearchBook( SearchBookDto dto ) throws KeyManagementException, KeyStoreException, NoSuchAlgorithmException {
+			
+		log.info("kakao search dto => {}", dto);
 		
 		RestTemplate restTemplate = getRestTemplate();
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl( ApiInfo.KAKAO_API.getUrl() )
-                .queryParam("query", dto.getQuery() );
+                .queryParam("query", dto.getQuery() )
+        		.queryParam("page", dto.getPage() )
+        		.queryParam("size", dto.getSize() );
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 		headers.set("Authorization", "KakaoAK " + ApiInfo.KAKAO_API.getKey());
 
 		HttpEntity<String> entity = new HttpEntity<>(headers);
-		ResponseEntity<String> result = restTemplate.exchange(uriBuilder.build().toUri(), HttpMethod.GET, entity, String.class);
+		ResponseEntity<Map> result = restTemplate.exchange(uriBuilder.build().toUri(), HttpMethod.GET, entity, Map.class);
 		
 		log.info("kakao search response => {}", result);
 		
-		return result.toString();
-		
+		return result.getBody();
 	}
+	
 	
 	/**
 	 * 개인 검색 이력을 등록한다.
@@ -131,7 +130,7 @@ public class SearchBookService {
 		log.info("query => {}", dto.getQuery() );
 		
 		String userId = dto.getUserId();
-		String query = dto.getUserId();
+		String query = dto.getQuery();
 		
 		User user = userInfoService.getUserInfo( userId );
 		// SEQ는 재사용을 위해 나누기 10 처리 한다.

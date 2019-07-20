@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.kkb.service.UserServiceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.577 s - in com.kkb.service.UserServiceTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.999 s <<< FAILURE! - in com.kkb.service.UserServiceTest
+testPasswordEncode(com.kkb.service.UserServiceTest)  Time elapsed: 0.998 s  <<< ERROR!
+java.lang.Exception: 패스워드가 올바르지 않습니다.
+	at com.kkb.service.UserServiceTest.testPasswordEncode(UserServiceTest.java:44)
+
